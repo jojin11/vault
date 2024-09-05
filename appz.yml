@@ -1,0 +1,34 @@
+app:
+    name: Vault
+    code: VAULT
+    notify: jjpaul@ecloudcontrol.com
+
+build:
+    version: 0.4
+    env: DEV
+    build_file: none
+    output_files: output/*.zip
+    image_template: vault-1.2
+
+deploy:
+    context: rms/DEV
+    type: statefulset
+    ingress: none
+    replicas: 1
+    port:
+    - 8200
+    - 80
+
+volumes:
+  - claim: vault-home
+    mount: /appz/home
+    name: home
+    size: 5Gi
+  - claim: vault-data
+    mount: /appz/data
+    name: data
+    size: 5Gi
+
+properties:
+    revision: 00
+    ENABLE_AUTO_PASSWORD: True
